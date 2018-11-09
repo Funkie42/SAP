@@ -1,5 +1,5 @@
 import pygame
-import readFile.py
+import readFile
 
 
 cols = 8
@@ -11,6 +11,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (133, 133, 133)
 
+data = readFile.readFileData()
 
 
 def drawGrit(cols, lines, data):
