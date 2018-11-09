@@ -1,4 +1,6 @@
 import pygame
+import readFile.py
+
 
 cols = 8
 lines = 8
