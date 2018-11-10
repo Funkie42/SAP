@@ -1,6 +1,6 @@
 import pygame
 import readFile
-
+import satConverter
 
 cols = 8
 lines = 8
@@ -10,8 +10,11 @@ rectSize = 50
 black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (133, 133, 133)
+backgroundWhite = (222, 222, 222)
 
+#Read input data to Array "data"
 data = readFile.readFileData()
+
 
 
 def drawGrit(cols, lines, data):
@@ -51,7 +54,7 @@ while done is False:
         if fractal_level < 0 or fractal_level > 10:
             fractal_level = 0'''
 
-    screen.fill(white)
+    screen.fill(backgroundWhite)
     drawGrit(cols, lines, data)
     clock.tick(20)
     pygame.display.flip()
