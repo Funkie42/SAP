@@ -69,7 +69,8 @@ def readPicosatSolution(result):
         sack.append(miniSack)
     return sack
 
-# conde for calling picosat
-result = subprocess.run(['picosat', '../picosat-965/simple.cnf'], stdout=subprocess.PIPE)
-x = readPicosatSolution(result)
-print("Result: ", x)
+if __name__ == "__main__":
+    # conde for calling picosat
+    result = subprocess.run(['picosat', '../picosat-965/simple.cnf'], stdout=subprocess.PIPE)
+    x = readPicosatSolution(result)
+    print("Result: ", x)

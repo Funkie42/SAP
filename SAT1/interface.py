@@ -11,7 +11,7 @@ gray = (133, 133, 133)
 backgroundWhite = (222, 222, 222)
 
 #Read input data to Array "data"
-gameData = readFile.readFileData('./ueb1/2x2.txt')
+gameData = readFile.readFileData('./ueb1/u01puzzle-med1.txt')
 data = gameData['game']
 cols = gameData['cols']
 lines = gameData['lines']
@@ -32,32 +32,32 @@ def drawGrit(cols, lines, data):
             if (data[i][j] == 2):
                 pygame.draw.rect(screen, black, pygame.Rect((i * rectSize, j * rectSize), (rectSize - 1, rectSize - 1)))
 
+if __name__ == "__main__":
+    pygame.init()
+    size = [cols*rectSize-1, lines*rectSize-1]
+    screen=pygame.display.set_mode(size)
+    pygame.display.set_caption("SAT 1 - Unruly")
+    done = False
+    clock = pygame.time.Clock()
+    fractal_level = 1
 
-pygame.init()
-size = [cols*rectSize-1, lines*rectSize-1]
-screen=pygame.display.set_mode(size)
-pygame.display.set_caption("SAT 1 - Unruly")
-done = False
-clock = pygame.time.Clock()
-fractal_level = 1
+    while done is False:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
 
-while done is False:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
+            '''if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    fractal_level += 1
+                if event.key == pygame.K_DOWN:
+                    fractal_level -= 1
+    
+            if fractal_level < 0 or fractal_level > 10:
+                fractal_level = 0'''
 
-        '''if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                fractal_level += 1
-            if event.key == pygame.K_DOWN:
-                fractal_level -= 1
+        screen.fill(backgroundWhite)
+        drawGrit(cols, lines, data)
+        clock.tick(20)
+        pygame.display.flip()
 
-        if fractal_level < 0 or fractal_level > 10:
-            fractal_level = 0'''
-
-    screen.fill(backgroundWhite)
-    drawGrit(cols, lines, data)
-    clock.tick(20)
-    pygame.display.flip()
-
-pygame.quit ()
+    pygame.quit ()
