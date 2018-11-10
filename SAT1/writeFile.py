@@ -5,7 +5,7 @@ def writeCNF(lits,terms, cnfArray):
 
     for i in range(0,len(cnfArray)):
         for j in range(0, len(cnfArray[i])):
-            f.write(str(cnfArray[i][j])+" ")
+            f.write(cnfArray[i][j]+" ")
         f.write("0\n")
 
 
