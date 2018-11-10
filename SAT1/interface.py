@@ -2,8 +2,6 @@ import pygame
 import readFile
 import satConverter
 
-cols = 8
-lines = 8
 rectSize = 50
 
 #init colors
@@ -13,7 +11,10 @@ gray = (133, 133, 133)
 backgroundWhite = (222, 222, 222)
 
 #Read input data to Array "data"
-data = readFile.readFileData()
+gameData = readFile.readFileData('./ueb1/2x2.txt')
+data = gameData['game']
+cols = gameData['cols']
+lines = gameData['lines']
 
 
 
