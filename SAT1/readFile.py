@@ -1,5 +1,4 @@
 import subprocess
-import interface
 def readFileData(fileName):
     fo = open(fileName)
 
@@ -34,7 +33,8 @@ def readFileData(fileName):
 
     return game
 
-def readPicosatSolution(result):
+def readPicosatSolution( cols, lines):
+    result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
     print("Given result:",result)
     result = result.stdout.decode('utf-8').splitlines()
     print("The given formula is: ", result[0].replace("s ",""))
@@ -48,15 +48,20 @@ def readPicosatSolution(result):
                 values.append(j)
     sack = []
     counter = 0
-    for i in range(interface.lines):
+    for i in range(lines):
         minisack = []
-        for j in range(interface.cols):
-            minisack.append(values[counter])
+        for j in range(cols):
+            # negative value = Black = 2
+            if int(values[counter]) < 0:
+                minisack.append(2)
+            # positive value = White = 1
+            if int(values[counter]) > 0:
+                minisack.append(1)
             counter = counter +1
         sack.append(minisack)
-    print(sack)
+    return sack
 
 if __name__ == "__main__":
-    # conde for calling picosat
-    result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
-    x = readPicosatSolution(result)
+    # code for calling picosat
+    x = readPicosatSolution()
+    print(x)

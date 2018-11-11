@@ -1,6 +1,7 @@
 import pygame
 import readFile
 import satConverter
+import subprocess
 
 rectSize = 50
 
@@ -19,17 +20,17 @@ lines = gameData['lines']
 
 
 def drawGrit(cols, lines, data):
-    for i in range(0,cols):
-        for j in range (0,lines):
+    for i in range(0,lines):
+        for j in range (0,cols):
 
             #for unsolved blocks
-            if (data[i][j] == 0):
+            if (data[j][i] == 0):
                 pygame.draw.rect(screen, gray, pygame.Rect((i*rectSize, j*rectSize), (rectSize-1, rectSize-1)))
             #for white blocks
-            if (data[i][j] == 1):
+            if (data[j][i] == 1):
                 pygame.draw.rect(screen, white, pygame.Rect((i * rectSize, j * rectSize), (rectSize - 1, rectSize - 1)))
             #for black blocks
-            if (data[i][j] == 2):
+            if (data[j][i] == 2):
                 pygame.draw.rect(screen, black, pygame.Rect((i * rectSize, j * rectSize), (rectSize - 1, rectSize - 1)))
 
 if __name__ == "__main__":
@@ -46,17 +47,19 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 done = True
 
-            '''if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    fractal_level += 1
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    fractal_level -= 1
-    
-            if fractal_level < 0 or fractal_level > 10:
-                fractal_level = 0'''
+                    satConverter.convertToSat()
+                    data = readFile.readPicosatSolution(cols, lines)
+                    print(data)
 
         screen.fill(backgroundWhite)
         drawGrit(cols, lines, data)
+        # code for calling picosat
+        '''result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
+        x = readFile.readPicosatSolution(result, cols, lines)
+        print(x)
+        drawGrit(14, 14, x)'''
         clock.tick(20)
         pygame.display.flip()
 
