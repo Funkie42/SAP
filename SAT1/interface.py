@@ -12,7 +12,7 @@ gray = (133, 133, 133)
 backgroundWhite = (222, 222, 222)
 
 #Read input data to Array "data"
-gameData = readFile.readFileData('./ueb1/u01puzzle-med1.txt')
+gameData = readFile.readFileData('./ueb1/u01puzzle-med2.txt')
 data = gameData['game']
 cols = gameData['cols']
 lines = gameData['lines']
