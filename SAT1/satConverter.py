@@ -4,6 +4,8 @@ import interface
 import math
 
 counter = 0
+colNumber = 0
+lineNumber = 0
 
 # convert the array syntax to an ascending number sequence
 def writeNumbersInFormat(line, colmun, colNumber):
@@ -50,25 +52,45 @@ def addSantaClauses(line, column, colNumber, lineNumber):
 
 # Check Lines for 50/50 distribution
 # Check Columns for 50/50 distribution
-def addAmountDistriction(lineNumber, colNumber, vertical):
+def addAmountDistriction(lineNumber, colNumber, vertical, data):
     sack = []
+    solutions = []
     for i in range(lineNumber):
         arrayOfCurrentRowIndexes = []
         for j in range(colNumber):
             if vertical:
-                arrayOfCurrentRowIndexes.append(i * lineNumber + j + 1)
+                arrayOfCurrentRowIndexes.append(data[i * lineNumber + j])
             else:
-                arrayOfCurrentRowIndexes.append(j * lineNumber + i + 1)
-        for k in range(colNumber//3,colNumber//2):
-            solutions = buildAllPossibleNegationsIterative(k, colNumber,arrayOfCurrentRowIndexes, [])
-            for s in solutions:
-                sack.append(s)
+                arrayOfCurrentRowIndexes.append(data[j * lineNumber + i])
+        whiteBlocks = []
+        blackBlocks = []
+        for elem in arrayOfCurrentRowIndexes:
+            #print(elem)
+            #print(arrayOfCurrentRowIndexes)
+
+            if elem > 0:
+                whiteBlocks.append(elem)
+            elif elem < 0:
+                blackBlocks.append(elem)
+
+        surplusOfWhiteBlocks = len(whiteBlocks) - len(arrayOfCurrentRowIndexes)//2
+        print(surplusOfWhiteBlocks)
+        print(whiteBlocks)
+        if surplusOfWhiteBlocks < 0:
+            print("niga",blackBlocks)
+            solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks*-1, len(blackBlocks), blackBlocks, 1)
+        elif surplusOfWhiteBlocks > 0:
+            solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks, len(whiteBlocks), whiteBlocks, 0)
+
+        #The main algorithm is called
+        #solutions = buildAllPossibleNegationsIterative(colNumber//2-1, colNumber, arrayOfCurrentRowIndexes)
+        for s in solutions:
+            sack.append(s)
     return (sack)
 
-def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineData, changedNumbers):
+def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineData, reverse):
     cnfOfLineCheckArray = []
 
-    #neccessaryIterations = 1
     for negLevel in range(0, negationAmount+1):
 
         positionToWrite = negLevel
@@ -79,31 +101,26 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
             numbersToNeg.append(i+1)
         #print("negnumb",numbersToNeg)
 
+        #Main loop to write each possibility
         calculating = 1
         while calculating:
 
+
             newCNF = arrayOfLineData.copy()
 
-            #create Negative ArraY
-            newCNFneg = arrayOfLineData.copy()
-            for number in range(0,len(newCNFneg)):
-                newCNFneg[number] = newCNFneg[number] * -1
 
             #LENGTH of array to flip numbers
             for number in numbersToNeg:
                 #print("flipped number:",number-1)
+
                 newCNF[number-1] *= -1
-                newCNFneg[number - 1] *= -1
+
 
             if len(numbersToNeg) > 0:
-                #print("numbers to neg", numbersToNeg)
-
                 for number in range(0, len(numbersToNeg)):
-                    #print(numbersToNeg[0], varAmount-negLevel+1)
                     if (numbersToNeg[number] == varAmount-(len(numbersToNeg)-number-1)):
                         if number==0:
                             calculating = 0  # End Program because it's finished for NegAmount
-                            #print("jo")
                         else:
                             numbersToNeg[number-1] += 1
                             numbersToNeg[number] = numbersToNeg[number-1]
@@ -113,23 +130,14 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
             else:
                 calculating = 0
 
-
-
-
-            #print(newCNF)
-            #print(newCNFneg)
             cnfOfLineCheckArray.append(newCNF)
-            cnfOfLineCheckArray.append(newCNFneg)
+
 
     return cnfOfLineCheckArray
 
-
-
-
-
 #RECURSIVE! VERY INEFFICENT!
 #returns all pos and negativ possibility for a given amout of negations and variables
-def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData, changedNumbers):
+def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData, changedNumbers = []):
     #global counter
     #counter += 1
     #print(counter)
@@ -151,62 +159,71 @@ def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData
         modArray = arrayOfLineData.copy()
         changedNumbers.append(-modArray.pop(i))
 
-        solution = buildAllPossibleNegations(negationAmout-1, varAmount-1, modArray, changedNumbers)
+        solution = buildAllPossibleNegationsRecursive(negationAmout-1, varAmount-1, modArray, changedNumbers)
         del changedNumbers[-1]
         solutions.extend(solution)
     print(len(solutions))
     return solutions
 
 
-def convertToSat():
+def convertToSat(data, repeatNumber = 0):
     # Read input data to Array "data"
-    data = interface.data
-    colNumber = len(data[0])
-    lineNumber = len(data)
-
+    global colNumber, lineNumber
+    writemode = ""
 
     cnf = []
 
-    for i in range(lineNumber):
-        for j in range(colNumber):
+    #3 Blocks Rule applied
+    if repeatNumber == 0:
+        colNumber = len(data[0])
+        lineNumber = len(data)
+        for i in range(lineNumber):
+            for j in range(colNumber):
 
-            '''Insert given blockcolors as Unit-Clauses
+                '''Insert given blockcolors as Unit-Clauses
+    
+                White blocks are represented by a positive value
+                Black blocks are represented by a negative value
+                '''
+                if data[i][j] == 1:  # Insert white blocks
+                    cnf.append([writeNumbersInFormat(i, j, colNumber)])
 
-            White blocks are represented by a positive value
-            Black blocks are represented by a negative value
-            '''
-            if data[i][j] == 1:  # Insert white blocks
-                cnf.append([writeNumbersInFormat(i, j, colNumber)])
+                elif data[i][j] == 2:  # Insert black blocks
+                    cnf.append(["-" + writeNumbersInFormat(i, j, colNumber)])
 
-            elif data[i][j] == 2:  # Insert black blocks
-                cnf.append(["-" + writeNumbersInFormat(i, j, colNumber)])
+                # Check only unknown blocks (Grey blocks)
 
-            # Check only unknown blocks (Grey blocks)
+                # check all stones and append logic on them add clauses to determine unknown blocks
+                santasHoeCollection = addSantaClauses(i, j, colNumber, lineNumber)
+                for clause in santasHoeCollection:
+                    cnf.append(clause)
+        writemode = "w+"
 
-            # check all stones and append logic on them add clauses to determine unknown blocks
-            santasHoeCollection = addSantaClauses(i, j, colNumber, lineNumber)
-            for clause in santasHoeCollection:
-                cnf.append(clause)
+    #Row Col Restiction appended
+    else:
 
-    lineRestictions = addAmountDistriction(lineNumber, colNumber, 1)
-    for lineRestiction in lineRestictions:
-        cnf.append(lineRestiction)
+        lineRestictions = addAmountDistriction(lineNumber, colNumber, 1, data)
+        for lineRestiction in lineRestictions:
+            cnf.append(lineRestiction)
 
-    colRestictions = addAmountDistriction(colNumber, lineNumber, 0)
-    for colRestiction in colRestictions:
-        cnf.append(colRestiction)
+        colRestictions = addAmountDistriction(colNumber, lineNumber, 0, data)
+        for colRestiction in colRestictions:
+            cnf.append(colRestiction)
+        writemode = "a"
 
     # number of literals and terms
-
-    lits = len(data) * len(data[0])
+    lits = colNumber * lineNumber
     terms = len(cnf)
 
     # write converted CNF to File
-    writeFile.writeCNF(lits, terms, cnf)
+    writeFile.writeCNF(lits, terms, cnf, writemode)
 
 
 
 if __name__ == "__main__":
-
-    testNeg = buildAllPossibleNegationsIterative(6, 14, [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14], [])
+    array = []
+    arrayLength = 18
+    for i in range(1,arrayLength+1):
+        array.append(i)
+    testNeg = buildAllPossibleNegationsIterative(len(array)//2-1, len(array), array)
     print(testNeg)

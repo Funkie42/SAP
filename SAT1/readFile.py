@@ -33,7 +33,7 @@ def readFileData(fileName):
 
     return game
 
-def readPicosatSolution( cols, lines):
+def readPicosatSolution(cols, lines, displayResult = 1):
     result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
     print("Given result:",result)
     result = result.stdout.decode('utf-8').splitlines()
@@ -48,20 +48,31 @@ def readPicosatSolution( cols, lines):
                 values.append(j)
     sack = []
     counter = 0
+    if displayResult == 0:
+        for i in range(len(values)):
+            values[i] = int(values[i])
+        print("value",values)
+        return values
+
     for i in range(lines):
         minisack = []
-        for j in range(cols):
-            # negative value = Black = 2
-            if int(values[counter]) < 0:
-                minisack.append(2)
-            # positive value = White = 1
-            if int(values[counter]) > 0:
-                minisack.append(1)
-            counter = counter +1
-        sack.append(minisack)
+        if displayResult:
+            for j in range(cols):
+                # negative value = Black = 2
+                print(values)
+                if int(values[counter]) < 0:
+                    minisack.append(2)
+                # positive value = White = 1
+                if int(values[counter]) > 0:
+                    minisack.append(1)
+                counter = counter +1
+            sack.append(minisack)
+        else:
+            return values
+    print(sack)
     return sack
 
 if __name__ == "__main__":
     # code for calling picosat
-    x = readPicosatSolution()
+    x = readPicosatSolution(14,14,1)
     print(x)
