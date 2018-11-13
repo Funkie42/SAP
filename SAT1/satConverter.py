@@ -84,19 +84,26 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
 
             newCNF = arrayOfLineData.copy()
 
+            #create Negative ArraY
+            newCNFneg = arrayOfLineData.copy()
+            for number in range(0,len(newCNFneg)):
+                newCNFneg[number] = newCNFneg[number] * -1
+
+            #LENGTH of array to flip numbers
             for number in numbersToNeg:
-                print("flipped number:",number-1)
+                #print("flipped number:",number-1)
                 newCNF[number-1] *= -1
+                newCNFneg[number - 1] *= -1
 
             if len(numbersToNeg) > 0:
-                print("numbers to neg", numbersToNeg)
+                #print("numbers to neg", numbersToNeg)
 
                 for number in range(0, len(numbersToNeg)):
                     #print(numbersToNeg[0], varAmount-negLevel+1)
                     if (numbersToNeg[number] == varAmount-(len(numbersToNeg)-number-1)):
                         if number==0:
                             calculating = 0  # End Program because it's finished for NegAmount
-                            print("jo")
+                            #print("jo")
                         else:
                             numbersToNeg[number-1] += 1
                             numbersToNeg[number] = numbersToNeg[number-1]
@@ -109,8 +116,10 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
 
 
 
-            print(newCNF)
+            #print(newCNF)
+            #print(newCNFneg)
             cnfOfLineCheckArray.append(newCNF)
+            cnfOfLineCheckArray.append(newCNFneg)
 
     return cnfOfLineCheckArray
 
@@ -199,5 +208,5 @@ def convertToSat():
 
 if __name__ == "__main__":
 
-    testNeg = buildAllPossibleNegationsIterative(3, 8, [1, 2, 3, 4, 5, 6, 7, 8], [])
+    testNeg = buildAllPossibleNegationsIterative(6, 14, [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14], [])
     print(testNeg)
