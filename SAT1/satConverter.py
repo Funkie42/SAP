@@ -1,6 +1,9 @@
 import readFile
 import writeFile
 import interface
+import math
+
+counter = 0
 
 # convert the array syntax to an ascending number sequence
 def writeNumbersInFormat(line, colmun, colNumber):
@@ -43,7 +46,6 @@ def addSantaClauses(line, column, colNumber, lineNumber):
             if i == 1:
                 for j in range(3):
                     hoehoehoe[len(hoehoehoe) - 1][j] = "-" + hoehoehoe[len(hoehoehoe) - 1][j]
-
     return hoehoehoe
 
 # Check Lines for 50/50 distribution
@@ -58,14 +60,70 @@ def addAmountDistriction(lineNumber, colNumber, vertical):
             else:
                 arrayOfCurrentRowIndexes.append(j * lineNumber + i + 1)
         for k in range(colNumber//3,colNumber//2):
-            solutions = buildAllPossibleNegations(k, colNumber,arrayOfCurrentRowIndexes, [])
-            #print("line: ", i, "   ",k, " :", solutions[0])
+            solutions = buildAllPossibleNegationsIterative(k, colNumber,arrayOfCurrentRowIndexes, [])
             for s in solutions:
                 sack.append(s)
     return (sack)
 
+def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineData, changedNumbers):
+    cnfOfLineCheckArray = []
+
+    #neccessaryIterations = 1
+    for negLevel in range(0, negationAmount+1):
+
+        positionToWrite = negLevel
+        startPosWrite = negLevel
+
+        numbersToNeg = []
+        for i in range(negLevel):
+            numbersToNeg.append(i+1)
+        #print("negnumb",numbersToNeg)
+
+        calculating = 1
+        while calculating:
+
+            newCNF = arrayOfLineData.copy()
+
+            for number in numbersToNeg:
+                print("flipped number:",number-1)
+                newCNF[number-1] *= -1
+
+            if len(numbersToNeg) > 0:
+                print("numbers to neg", numbersToNeg)
+
+                for number in range(0, len(numbersToNeg)):
+                    #print(numbersToNeg[0], varAmount-negLevel+1)
+                    if (numbersToNeg[number] == varAmount-(len(numbersToNeg)-number-1)):
+                        if number==0:
+                            calculating = 0  # End Program because it's finished for NegAmount
+                            print("jo")
+                        else:
+                            numbersToNeg[number-1] += 1
+                            numbersToNeg[number] = numbersToNeg[number-1]
+
+                if numbersToNeg[len(numbersToNeg) - 1] < varAmount:
+                    numbersToNeg[len(numbersToNeg) - 1] += 1
+            else:
+                calculating = 0
+
+
+
+
+            print(newCNF)
+            cnfOfLineCheckArray.append(newCNF)
+
+    return cnfOfLineCheckArray
+
+
+
+
+
+#RECURSIVE! VERY INEFFICENT!
 #returns all pos and negativ possibility for a given amout of negations and variables
-def buildAllPossibleNegations(negationAmout, varAmount, arrayOfLineData, changedNumbers):
+def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData, changedNumbers):
+    #global counter
+    #counter += 1
+    #print(counter)
     solutions = []
     if negationAmout == 0:
 
@@ -86,11 +144,8 @@ def buildAllPossibleNegations(negationAmout, varAmount, arrayOfLineData, changed
 
         solution = buildAllPossibleNegations(negationAmout-1, varAmount-1, modArray, changedNumbers)
         del changedNumbers[-1]
-        #print ("sol",solution)
-        #print("change",changedNumber)
-        for j in solution:
-            solutions.append(j)
-    #print("solutions",solutions)
+        solutions.extend(solution)
+    print(len(solutions))
     return solutions
 
 
@@ -100,9 +155,7 @@ def convertToSat():
     colNumber = len(data[0])
     lineNumber = len(data)
 
-    '''TODO LOGIC TO convert to CNF
 
-    '''
     cnf = []
 
     for i in range(lineNumber):
@@ -140,19 +193,11 @@ def convertToSat():
     terms = len(cnf)
 
     # write converted CNF to File
-    filenameCNF = writeFile.writeCNF(lits, terms, cnf)
+    writeFile.writeCNF(lits, terms, cnf)
 
-    '''TODO'''
-    # Open PicoSat and get solution for CNF in Array
-    solvedData = usePicoSat(filenameCNF)
-
-
-# Open PicoSat and get solution for CNF in Array
-def usePicoSat(filenameCNF):
-    return 0
 
 
 if __name__ == "__main__":
-    for i in range(4):
-        testNeg = buildAllPossibleNegations(i, 8, [1, 2, 3, 4, 5, 6, 7, 8], [])
-    print(i,":  ", testNeg)
+
+    testNeg = buildAllPossibleNegationsIterative(3, 8, [1, 2, 3, 4, 5, 6, 7, 8], [])
+    print(testNeg)

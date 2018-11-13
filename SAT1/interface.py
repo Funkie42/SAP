@@ -49,17 +49,14 @@ if __name__ == "__main__":
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
+                    # code for calling picosat
                     satConverter.convertToSat()
                     data = readFile.readPicosatSolution(cols, lines)
                     print(data)
 
         screen.fill(backgroundWhite)
         drawGrit(cols, lines, data)
-        # code for calling picosat
-        '''result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
-        x = readFile.readPicosatSolution(result, cols, lines)
-        print(x)
-        drawGrit(14, 14, x)'''
+
         clock.tick(20)
         pygame.display.flip()
 
