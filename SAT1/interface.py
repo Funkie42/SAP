@@ -12,7 +12,7 @@ gray = (133, 133, 133)
 backgroundWhite = (222, 222, 222)
 
 #Read input data to Array "data"
-gameData = readFile.readFileData('./ueb1/u01puzzle-small1.txt')
+gameData = readFile.readFileData('./ueb1/u01puzzle-big1.txt')
 data = gameData['game']
 cols = gameData['cols']
 lines = gameData['lines']
@@ -50,12 +50,30 @@ if __name__ == "__main__":
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
                     # code for calling picosat
-                    satConverter.convertToSat(data)
-                    data = readFile.readPicosatSolution(cols, lines,0)
 
+                    #apply the rule for the 3 solver
+                    satConverter.convertToSat(data)
+                    data = readFile.readPicosatSolution(cols, lines, 0)
+                    # call the code to add clauses for amount restriction
                     satConverter.convertToSat(data,1)
-                    data = readFile.readPicosatSolution(cols, lines)
+                    data = readFile.readPicosatSolution(cols, lines,0)
+                    print("öfkasdjö ", data)
+                    puzzleSolved = 0
+                    i = 0
+                    while( puzzleSolved == 0):
+                        satConverter.convertToSat(data, 1)
+                        data = readFile.readPicosatSolution(cols, lines, 0)
+                        # check if equal amount in al rows
+                        puzzleSolved = satConverter.checkIfDataIsDevine(data, cols, lines)
+                        if (puzzleSolved == 1):
+                            #check if all rows are equal
+                            puzzleSolved = satConverter.checkIfDataIsDevine(data, lines, cols)
+                        i = i+1
+                        print("I: ",i)
+                    # we have a solution and can display it
+
                     print(data)
+                    data = readFile.readPicosatSolution(cols, lines, 1)
 
         screen.fill(backgroundWhite)
         drawGrit(cols, lines, data)

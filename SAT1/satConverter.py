@@ -74,10 +74,10 @@ def addAmountDistriction(lineNumber, colNumber, vertical, data):
                 blackBlocks.append(elem)
 
         surplusOfWhiteBlocks = len(whiteBlocks) - len(arrayOfCurrentRowIndexes)//2
-        print(surplusOfWhiteBlocks)
-        print(whiteBlocks)
+        #print(surplusOfWhiteBlocks)
+        #print(whiteBlocks)
         if surplusOfWhiteBlocks < 0:
-            print("niga",blackBlocks)
+            #print("niga",blackBlocks)
             solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks*-1, len(blackBlocks), blackBlocks, 1)
         elif surplusOfWhiteBlocks > 0:
             solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks, len(whiteBlocks), whiteBlocks, 0)
@@ -132,6 +132,10 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
 
             cnfOfLineCheckArray.append(newCNF)
 
+    #print("first: ",cnfOfLineCheckArray)
+    for j in range(len(cnfOfLineCheckArray[0])):
+       cnfOfLineCheckArray[0][j] = cnfOfLineCheckArray[0][j] * -1
+    #print ("second: ", cnfOfLineCheckArray)
 
     return cnfOfLineCheckArray
 
@@ -160,9 +164,10 @@ def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData
         changedNumbers.append(-modArray.pop(i))
 
         solution = buildAllPossibleNegationsRecursive(negationAmout-1, varAmount-1, modArray, changedNumbers)
+
         del changedNumbers[-1]
         solutions.extend(solution)
-    print(len(solutions))
+    #print(len(solutions))
     return solutions
 
 
@@ -218,6 +223,18 @@ def convertToSat(data, repeatNumber = 0):
     # write converted CNF to File
     writeFile.writeCNF(lits, terms, cnf, writemode)
 
+# checks if equal amout of white and black in every row
+def checkIfDataIsDevine(data, cols, lines):
+    for i in range(lines):
+        counter = 0
+        for j in range(cols):
+            if(data[j * lineNumber + i] > 0):
+                counter = counter + 1
+        if(counter != colNumber//2):
+            return 0
+        else:
+            return 1
+
 
 
 if __name__ == "__main__":
@@ -226,4 +243,4 @@ if __name__ == "__main__":
     for i in range(1,arrayLength+1):
         array.append(i)
     testNeg = buildAllPossibleNegationsIterative(len(array)//2-1, len(array), array)
-    print(testNeg)
+    #print(testNeg)

@@ -3,7 +3,6 @@ import string
 
 #write converted CNF to File
 def writeCNF(lits,terms, cnfArray, writemode = "w+"):
-
     if writemode == "w+":
         f = open("satTest.cnf", writemode)
         f.write("p cnf " + str(lits) + " " + str(terms)+"\n")

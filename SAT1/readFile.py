@@ -53,13 +53,13 @@ def readPicosatSolution(cols, lines, displayResult = 1):
             values[i] = int(values[i])
         print("value",values)
         return values
-
-    for i in range(lines):
-        minisack = []
-        if displayResult:
+    if displayResult == 1:
+        for i in range(lines):
+            minisack = []
+            #if displayResult:
             for j in range(cols):
                 # negative value = Black = 2
-                print(values)
+                #print(values)
                 if int(values[counter]) < 0:
                     minisack.append(2)
                 # positive value = White = 1
@@ -67,12 +67,20 @@ def readPicosatSolution(cols, lines, displayResult = 1):
                     minisack.append(1)
                 counter = counter +1
             sack.append(minisack)
-        else:
-            return values
-    print(sack)
-    return sack
+            #else:
+            #    return values
+        #print(sack)
+        return sack
+    if displayResult == 2:
+        doubleArr = []
+        for i in range(lines):
+            singleArr = []
+            for j in range(cols):
+                singleArr.append(int(values[lines*(i)+j-1]))
+            doubleArr.append(singleArr)
+        return doubleArr
 
 if __name__ == "__main__":
     # code for calling picosat
-    x = readPicosatSolution(14,14,1)
+    x = readPicosatSolution(8,8,2)
     print(x)
