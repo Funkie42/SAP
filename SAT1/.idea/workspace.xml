@@ -47,24 +47,24 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="cnf" value="1" />
-          <entry key="py" value="9" />
+          <entry key="py" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="9" />
+          <entry key="Python" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="2031" />
-          <entry key="py" value="9690" />
+          <entry key="Python Console" value="2122" />
+          <entry key="py" value="11887" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="11721" />
+          <entry key="Python" value="14009" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -83,21 +83,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="39" column="98" selection-start-line="39" selection-start-column="76" selection-end-line="39" selection-end-column="98" />
+            <state relative-caret-position="300">
+              <caret line="90" column="93" lean-forward="true" selection-start-line="90" selection-start-column="93" selection-end-line="90" selection-end-column="93" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/satConverter.py">
+        <entry file="file:///usr/lib/python3.6/subprocess.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="324" column="55" selection-start-line="324" selection-start-column="55" selection-end-line="324" selection-end-column="55" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-                <marker date="1542215956086" expanded="true" signature="8451:12015" ph="..." />
-              </folding>
+            <state relative-caret-position="4271">
+              <caret line="830" selection-start-line="830" selection-end-line="830" />
             </state>
           </provider>
         </entry>
@@ -105,17 +101,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/writeFile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="298">
               <caret line="27" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="54" column="80" selection-start-line="54" selection-start-column="80" selection-end-line="54" selection-end-column="80" />
+            <state relative-caret-position="93">
+              <caret line="99" selection-start-line="99" selection-end-line="99" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -135,17 +131,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="41500">
+            <state relative-caret-position="498">
               <caret line="1660" column="12" selection-start-line="1660" selection-start-column="12" selection-end-line="1660" selection-end-column="12" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ueb1/u01puzzle-big1.txt">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/satConverter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" column="12" selection-start-line="8" selection-end-line="9" />
+            <state relative-caret-position="-303">
+              <caret line="169" column="41" lean-forward="true" selection-start-line="169" selection-start-column="41" selection-end-line="169" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#376#2132#0" />
+                <element signature="e#3670#5036#0" />
+                <element signature="e#5261#5947#0" />
+                <marker date="1542227017366" expanded="true" signature="7894:13126" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -154,20 +157,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>lines</find>
-      <find>buildAllPossibleNegations</find>
-      <find>41 42</find>
-      <find>build</find>
-      <find>buildallposs</find>
-      <find>buildAllPossibleNegationsRecursive</find>
-      <find>niger</find>
-      <find>convert</find>
-      <find>addamou</find>
-      <find>data</find>
-      <find>convertToSat</find>
-      <find>sack = []</find>
       <find>value</find>
-      <find>print</find>
       <find>writeCNF</find>
       <find>writecnf</find>
       <find>write</find>
@@ -181,6 +171,22 @@
       <find>readFileData</find>
       <find>checkEveryStoneForOtherSolutions</find>
       <find>applyRules</find>
+      <find>arrayInFor</find>
+      <find>sdfl</find>
+      <find>print</find>
+      <find>satcon</find>
+      <find>app</find>
+      <find>sd</find>
+      <find>lines = gameData['lines']</find>
+      <find>pri</find>
+      <find>buill</find>
+      <find>buil</find>
+      <find>setField</find>
+      <find>buildN</find>
+      <find>readPicosatWi</find>
+      <find>apply</find>
+      <find>for</find>
+      <find>picosatW</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -193,16 +199,17 @@
         <option value="$PROJECT_DIR$/GUI" />
         <option value="$PROJECT_DIR$/GUI.py" />
         <option value="$PROJECT_DIR$/writeFile.py" />
+        <option value="/media/marco/I'M AWESOME/interface.py" />
         <option value="$PROJECT_DIR$/readFile.py" />
-        <option value="$PROJECT_DIR$/satConverter.py" />
         <option value="$PROJECT_DIR$/interface.py" />
+        <option value="$PROJECT_DIR$/satConverter.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="67" />
-    <option name="y" value="25" />
-    <option name="width" value="897" />
+    <option name="x" value="984" />
+    <option name="y" value="116" />
+    <option name="width" value="887" />
     <option name="height" value="789" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -396,7 +403,7 @@
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11639344" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.11639344" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -415,6 +422,26 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11639344" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35135135" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39783785" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32972974" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32972974" />
+      <window_info anchor="bottom" id="Python Console" order="9" weight="0.32972974" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -424,13 +451,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/satConverter.py</url>
-          <line>328</line>
-          <option name="timeStamp" value="47" />
+          <line>370</line>
+          <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/readFile.py</url>
-          <line>39</line>
-          <option name="timeStamp" value="48" />
+          <url>file://$PROJECT_DIR$/interface.py</url>
+          <line>99</line>
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -473,10 +500,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+    <entry file="file://$PROJECT_DIR$/writeFile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41500">
-          <caret line="1660" column="12" selection-start-line="1660" selection-start-column="12" selection-end-line="1660" selection-end-column="12" />
+        <state relative-caret-position="298">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///media/marco/I'M AWESOME/interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="78" column="29" selection-end-line="114" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -487,37 +524,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/writeFile.py">
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/readFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="39" column="98" selection-start-line="39" selection-start-column="76" selection-end-line="39" selection-end-column="98" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/satConverter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="324" column="55" selection-start-line="324" selection-start-column="55" selection-end-line="324" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <marker date="1542215956086" expanded="true" signature="8451:12015" ph="..." />
-          </folding>
+        <state relative-caret-position="498">
+          <caret line="1660" column="12" selection-start-line="1660" selection-start-column="12" selection-end-line="1660" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="54" column="80" selection-start-line="54" selection-start-column="80" selection-end-line="54" selection-end-column="80" />
+        <state relative-caret-position="93">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readFile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="90" column="93" lean-forward="true" selection-start-line="90" selection-start-column="93" selection-end-line="90" selection-end-column="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python3.6/subprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4271">
+          <caret line="830" selection-start-line="830" selection-end-line="830" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/satConverter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-303">
+          <caret line="169" column="41" lean-forward="true" selection-start-line="169" selection-start-column="41" selection-end-line="169" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#376#2132#0" />
+            <element signature="e#3670#5036#0" />
+            <element signature="e#5261#5947#0" />
+            <marker date="1542227017366" expanded="true" signature="7894:13126" ph="..." />
           </folding>
         </state>
       </provider>

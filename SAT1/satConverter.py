@@ -2,6 +2,7 @@ import readFile
 import writeFile
 import interface
 import math
+import random
 
 counter = 0
 colNumber = 0
@@ -59,39 +60,33 @@ def addAmountDistriction(lineNumber, colNumber, vertical, data):
         arrayOfCurrentRowIndexes = []
         for j in range(colNumber):
             if vertical:
+                #print (data,"data")
+                #print (lineNumber,"lineNum")
                 arrayOfCurrentRowIndexes.append(data[i * lineNumber + j])
             else:
                 arrayOfCurrentRowIndexes.append(data[j * lineNumber + i])
         whiteBlocks = []
         blackBlocks = []
         for elem in arrayOfCurrentRowIndexes:
-            #print(elem)
-            #print(arrayOfCurrentRowIndexes)
-
             if elem > 0:
                 whiteBlocks.append(elem)
             elif elem < 0:
                 blackBlocks.append(elem)
 
         surplusOfWhiteBlocks = len(whiteBlocks) - len(arrayOfCurrentRowIndexes)//2
-        #print(surplusOfWhiteBlocks)
-        #print(whiteBlocks)
+
         if surplusOfWhiteBlocks < 0:
             sack = [[]]
             for i in blackBlocks:
                 sack[0].append(i*-1)
             return sack
-            print("niga",blackBlocks)
             solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks*-1, len(blackBlocks), blackBlocks, 1)
         elif surplusOfWhiteBlocks > 0:
             sack = [[]]
             for i in whiteBlocks:
                 sack[0].append(i*-1)
-            print("sack",sack)
             return sack
-            #return sack
-            #solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks, len(whiteBlocks), whiteBlocks, 0)
-            #print("solutions: ", solutions)
+
         #The main algorithm is called
         #solutions = buildAllPossibleNegationsIterative(colNumber//2-1, colNumber, arrayOfCurrentRowIndexes)
         for s in solutions:
@@ -109,7 +104,6 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
         numbersToNeg = []
         for i in range(negLevel):
             numbersToNeg.append(i+1)
-        #print("negnumb",numbersToNeg)
 
         #Main loop to write each possibility
         calculating = 1
@@ -121,10 +115,8 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
 
             #LENGTH of array to flip numbers
             for number in numbersToNeg:
-                #print("flipped number:",number-1)
 
                 newCNF[number-1] *= -1
-
 
             if len(numbersToNeg) > 0:
                 for number in range(0, len(numbersToNeg)):
@@ -142,19 +134,14 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
 
             cnfOfLineCheckArray.append(newCNF)
 
-    #print("first: ",cnfOfLineCheckArray)
     for j in range(len(cnfOfLineCheckArray[0])):
        cnfOfLineCheckArray[0][j] = cnfOfLineCheckArray[0][j] * -1
-    #print ("second: ", cnfOfLineCheckArray)
 
     return cnfOfLineCheckArray
 
 #RECURSIVE! VERY INEFFICENT!
 #returns all pos and negativ possibility for a given amout of negations and variables
 def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData, changedNumbers = []):
-    #global counter
-    #counter += 1
-    #print(counter)
     solutions = []
     if negationAmout == 0:
 
@@ -177,7 +164,6 @@ def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData
 
         del changedNumbers[-1]
         solutions.extend(solution)
-    #print(len(solutions))
     return solutions
 
 
@@ -238,10 +224,8 @@ def checkIfDataIsDevineLines(data, cols, lines):
     for i in range(lines):
         counter = 0
         for j in range(cols):
-            print("line: ", i, "col: ", j, "data: ", data[i * lineNumber + j])
             if(data[i * lineNumber + j] > 0):
                 counter = counter + 1
-        print("counter: ", counter, "lineNumber: ", lineNumber)
         if(counter != colNumber//2):
             return 0
     return 1
@@ -295,12 +279,10 @@ def applyRules(data, lines, cols, greyFields):
             data = readFile.readPicosatSolution(cols, lines, 0)
 
         i = i + 1
-        print("I: ", i)
     # we have found the perfect solution but now exclude all other possibilities
     # herefor we got throug everystone and check if it could be switched
     # if so we have to write this stone in our satfile
     checkEveryStoneForOtherSolutions(data, greyFields)
-    print(data)
 
 
     # data = readFile.readPicosatSolution(cols, lines, 1)
@@ -327,7 +309,6 @@ def checkEveryStoneForOtherSolutions(data, greyFields):
     lits = colNumber * lineNumber
     counter = 0
     for elem in greyFields:
-        print(counter)
         counter += 1
         #check it for the negative value if it would be possible in other solution
         elem = data[elem]*-1
@@ -338,13 +319,77 @@ def checkEveryStoneForOtherSolutions(data, greyFields):
             writeFile.writeCNF(lits, 1, [[elem]], "a")
 
 
+#Aufgabe 4
+def buildNewGrid(lines, cols):
+    gameField = []
+    greyFields = []
+    gridSize = lines*cols
+    for i in range(gridSize):
+        gameField.append(0)
+    for i in range(gridSize//10):
+        index = random.randint(0,gridSize-1)
+        gameField[index] = random.randint(1,2)
+    counter = 0
+    for i in range(len(gameField)):
+        if(gameField[i] == 0):
+            greyFields.append(counter)
+        counter += 1
 
+    arrayInFormat = []
+    newArrayToAdd = []
+    for i in range(len(gameField)):
+
+        newArrayToAdd.append(gameField[i])
+
+        if i % lines == lines - 1:
+            arrayInFormat.append(newArrayToAdd)
+            newArrayToAdd = []
+
+    #print(arrayInFormat)
+    return setFieldsForSingularity(arrayInFormat,greyFields, lines, cols)
+
+def setFieldsForSingularity(arrayInFormat, greyFields, lines, cols):
+    #lits = colNumber * lineNumber
+    lits = 8 * 8
+    data = applyRules(arrayInFormat, lines, cols, greyFields)
+    counter = 0
+    for elem in greyFields:
+        # check it for the negative value if it would be possible in other solution
+        #print ("data",data)
+        #elemNegated = (data[elem//lineNumber][elem%colNumber]) % 2 + 1
+        #if elemNegated == 2:
+        #    elem
+        #else:
+        elemNegated = elem*-1
+
+        #print (elemNegated,"elem Negated")
+        #applyRules(arrayInFormat, lines, cols, greyFields)
+        isPossible = readFile.readPicosatWithArgs(str(elemNegated))
+        if (isPossible == 1):
+            randomChoice = random.choice((-1, 1))
+            writeFile.writeCNF(lits, 1, [[elem* randomChoice]], "a")
+            counter += 1
+            if(elem* randomChoice > 0):
+                #print (elem)
+                arrayInFormat[elem//lineNumber][elem%colNumber] = 1
+            else:
+                arrayInFormat[elem//lineNumber][elem%colNumber] = 2
+    return arrayInFormat
 
 
 if __name__ == "__main__":
-    array = []
-    arrayLength = 18
-    for i in range(1,arrayLength+1):
-        array.append(i)
-    testNeg = buildAllPossibleNegationsIterative(len(array)//2-1, len(array), array)
-    #print(testNeg)
+    #array = []
+    #arrayLength = 18
+    #for i in range(1,arrayLength+1):
+    #    array.append(i)
+    #testNeg = buildAllPossibleNegationsIterative(len(array)//2-1, len(array), array)
+    impossible = 1
+    while impossible:
+        try:
+            buildNewGrid(8,8)
+            impossible = 0
+        except:
+            impossible = 1
+
+
+

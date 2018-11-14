@@ -43,9 +43,7 @@ def readFileData(fileName):
 
 def readPicosatSolution(cols, lines, displayResult = 1):
     result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
-    #print("Given result:",result)
     result = result.stdout.decode('utf-8').splitlines()
-    #print("The given formula is: ", result[0].replace("s ",""))
     # remove the frist line
     result.pop(0)
     values = []
@@ -89,12 +87,11 @@ def readPicosatSolution(cols, lines, displayResult = 1):
 
 def readPicosatWithArgs(clause):
     #call picosat with extra clause
+    #print (clause,"clause")
     result = subprocess.run(['picosat', '-a',clause , 'satTest.cnf'], stdout=subprocess.PIPE)
-    print("Given result:",result)
     result = result.stdout.decode('utf-8').splitlines()
     result = result.pop(0)
     if(result == "s SATISFIABLE"):
-        print("switchable clause: ",clause)
         # we have to add this term to the formular as a given clause
         return 1
     return 0
