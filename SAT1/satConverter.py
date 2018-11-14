@@ -250,7 +250,51 @@ def checkIfDataIsDevineCols(data, cols, lines):
             return 0
     return 1
 
+def convertData(data, lines, cols):
+    sol = []
+    counter = 0
+    for i in range(lines):
+        subSol = []
+        for j in range(cols):
+            if (data[counter] < 0):
+                subSol.append(2)
+            else:
+                subSol.append(1)
+            counter += 1
+        sol.append(subSol)
+    return sol
 
+def applyRules(data, lines, cols):
+    # apply the rule for the 3 solver
+    convertToSat(data)
+    data = readFile.readPicosatSolution(cols, lines, 0)
+    # call the code to add clauses for amount restriction
+    convertToSat(data, 1)
+    data = readFile.readPicosatSolution(cols, lines, 0)
+    puzzleSolved = 0
+    i = 0
+    while (puzzleSolved == 0):
+        convertToSat(data, 1)
+        data = readFile.readPicosatSolution(cols, lines, 0)
+        # check if equal amount in al rows
+        puzzleSolved = checkIfDataIsDevineLines(data, cols, lines)
+        if (puzzleSolved == 1):
+            # check if all rows are equal
+            puzzleSolved = checkIfDataIsDevineCols(data, cols, lines)
+            # satConverter.convertToSat(data, 1)
+            data = readFile.readPicosatSolution(cols, lines, 0)
+
+        i = i + 1
+        print("I: ", i)
+    # we have a solution and can display it
+    convertToSat(data, 1)
+    data = readFile.readPicosatSolution(cols, lines, 0)
+    convertToSat(data, 1)
+    data = readFile.readPicosatSolution(cols, lines, 0)
+
+    # data = readFile.readPicosatSolution(cols, lines, 1)
+    data = convertData(data, lines, cols)
+    return data
 
 
 if __name__ == "__main__":

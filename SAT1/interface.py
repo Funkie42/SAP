@@ -12,7 +12,7 @@ gray = (133, 133, 133)
 backgroundWhite = (222, 222, 222)
 
 #Read input data to Array "data"
-gameData = readFile.readFileData('./ueb1/u01puzzle-huge1.txt')
+gameData = readFile.readFileData('./ueb1/u01puzzle-small1.txt')
 data = gameData['game']
 cols = gameData['cols']
 lines = gameData['lines']
@@ -51,51 +51,8 @@ if __name__ == "__main__":
                 if event.key == pygame.K_DOWN:
                     # code for calling picosat
 
-                    #apply the rule for the 3 solver
-                    satConverter.convertToSat(data)
-                    data = readFile.readPicosatSolution(cols, lines, 0)
-                    # call the code to add clauses for amount restriction
-                    satConverter.convertToSat(data,1)
-                    data = readFile.readPicosatSolution(cols, lines,0)
-                    print("öfkasdjö ", data)
-                    puzzleSolved = 0
-                    i = 0
-                    while( puzzleSolved == 0):
-                        satConverter.convertToSat(data, 1)
-                        data = readFile.readPicosatSolution(cols, lines, 0)
-                        # check if equal amount in al rows
-                        puzzleSolved = satConverter.checkIfDataIsDevineLines(data, cols, lines)
-                        if (puzzleSolved == 1):
-                            #check if all rows are equal
-                            puzzleSolved = satConverter.checkIfDataIsDevineCols(data, cols, lines)
-                            #satConverter.convertToSat(data, 1)
-                            data = readFile.readPicosatSolution(cols, lines, 0)
+                    data = satConverter.applyRules(data, lines, cols)
 
-                        i = i+1
-                        print("I: ",i)
-                    # we have a solution and can display it
-                    satConverter.convertToSat(data, 1)
-                    data = readFile.readPicosatSolution(cols, lines, 0)
-                    satConverter.convertToSat(data, 1)
-                    data = readFile.readPicosatSolution(cols, lines, 0)
-                    print(data)
-                    sol = []
-                    counter = 0
-                    for i in range(lines):
-                        subSol = []
-                        for j in range(cols):
-                            if(data[counter] < 0):
-                                subSol.append(2)
-                            else:
-                                subSol.append(1)
-                            counter += 1
-                        sol.append(subSol)
-                    print("subSol: ", sol)
-
-                    #data = readFile.readPicosatSolution(cols, lines, 1)
-                    data = sol
-
-                    print(data)
         screen.fill(backgroundWhite)
         drawGrit(cols, lines, data)
 

@@ -79,7 +79,19 @@ def readPicosatSolution(cols, lines, displayResult = 1):
             doubleArr.append(singleArr)
         return doubleArr
 
+def readPicosatWithArgs(clause):
+    #call picosat with extra clause
+    result = subprocess.run(['picosat', '-a',clause , 'satTest.cnf'], stdout=subprocess.PIPE)
+    print("Given result:",result)
+    result = result.stdout.decode('utf-8').splitlines()
+    result = result.pop(0)
+    if(result == "s SATISFIABLE"):
+        return 0
+    return 1
+
+
+readPicosatWithArgs
+
 if __name__ == "__main__":
     # code for calling picosat
-    x = readPicosatSolution(8,8,2)
-    print(x)
+    readPicosatWithArgs("1024")
