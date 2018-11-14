@@ -274,7 +274,7 @@ def convertData(data, lines, cols):
         sol.append(subSol)
     return sol
 
-def applyRules(data, lines, cols):
+def applyRules(data, lines, cols, greyFields):
     # apply the rule for the 3 solver
     convertToSat(data)
     data = readFile.readPicosatSolution(cols, lines, 0)
@@ -299,7 +299,7 @@ def applyRules(data, lines, cols):
     # we have found the perfect solution but now exclude all other possibilities
     # herefor we got throug everystone and check if it could be switched
     # if so we have to write this stone in our satfile
-    checkEveryStoneForOtherSolutions(data)
+    checkEveryStoneForOtherSolutions(data, greyFields)
     print(data)
 
 
@@ -307,8 +307,10 @@ def applyRules(data, lines, cols):
     data = convertData(data, lines, cols)
     return data
 
-# gets data in fomat: [1,2,3,4,5,6,7,8,9,...,n]
+''''# gets data in fomat: [1,2,3,4,5,6,7,8,9,...,n]
 def checkEveryStoneForOtherSolutions(data):
+    gameData = readFile.readFileData('./ueb1/u01puzzle-small1.txt')
+
     lits = colNumber * lineNumber
     for elem in data:
         #check it for the negative value if it would be possible in other solution
@@ -317,7 +319,26 @@ def checkEveryStoneForOtherSolutions(data):
         if(isPossible==1):
             elem = elem*-1
             #it can be switched and therefor this possibility has to be excluded
+            writeFile.writeCNF(lits, 1, [[elem]], "a")'''
+
+# gets data in fomat: [1,2,3,4,5,6,7,8,9,...,n]
+def checkEveryStoneForOtherSolutions(data, greyFields):
+
+    lits = colNumber * lineNumber
+    counter = 0
+    for elem in greyFields:
+        print(counter)
+        counter += 1
+        #check it for the negative value if it would be possible in other solution
+        elem = data[elem]*-1
+        isPossible = readFile.readPicosatWithArgs(str(elem))
+        if(isPossible==1):
+            elem = elem*-1
+            #it can be switched and therefor this possibility has to be excluded
             writeFile.writeCNF(lits, 1, [[elem]], "a")
+
+
+
 
 
 if __name__ == "__main__":

@@ -12,10 +12,11 @@ gray = (133, 133, 133)
 backgroundWhite = (222, 222, 222)
 
 #Read input data to Array "data"
-gameData = readFile.readFileData('./ueb1/u01puzzle-huge2.txt')
+gameData = readFile.readFileData('./ueb1/u01puzzle-huge1.txt')
 data = gameData['game']
 cols = gameData['cols']
 lines = gameData['lines']
+greyFields = gameData['greyFields']
 
 
 
@@ -51,7 +52,7 @@ if __name__ == "__main__":
                 if event.key == pygame.K_DOWN:
                     # code for calling picosat
 
-                    data = satConverter.applyRules(data, lines, cols)
+                    data = satConverter.applyRules(data, lines, cols, greyFields)
 
         screen.fill(backgroundWhite)
         drawGrit(cols, lines, data)
