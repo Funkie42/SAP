@@ -286,15 +286,28 @@ def applyRules(data, lines, cols):
 
         i = i + 1
         print("I: ", i)
-    # we have a solution and can display it
-    convertToSat(data, 1)
-    data = readFile.readPicosatSolution(cols, lines, 0)
-    convertToSat(data, 1)
-    data = readFile.readPicosatSolution(cols, lines, 0)
+    # we have found the perfect solution but now exclude all other possibilities
+    # herefor we got throug everystone and check if it could be switched
+    # if so we have to write this stone in our satfile
+    checkEveryStoneForOtherSolutions(data)
+    print(data)
+
 
     # data = readFile.readPicosatSolution(cols, lines, 1)
     data = convertData(data, lines, cols)
     return data
+
+# gets data in fomat: [1,2,3,4,5,6,7,8,9,...,n]
+def checkEveryStoneForOtherSolutions(data):
+    lits = colNumber * lineNumber
+    for elem in data:
+        #check it for the negative value if it would be possible in other solution
+        elem = elem*-1
+        isPossible = readFile.readPicosatWithArgs(str(elem))
+        if(isPossible==1):
+            elem = elem*-1
+            #it can be switched and therefor this possibility has to be excluded
+            writeFile.writeCNF(lits, 1, [[elem]], "a")
 
 
 if __name__ == "__main__":

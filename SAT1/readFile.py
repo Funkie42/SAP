@@ -86,11 +86,12 @@ def readPicosatWithArgs(clause):
     result = result.stdout.decode('utf-8').splitlines()
     result = result.pop(0)
     if(result == "s SATISFIABLE"):
-        return 0
-    return 1
+        print("switchable clause: ",clause)
+        # we have to add this term to the formular as a given clause
+        return 1
+    return 0
 
 
-readPicosatWithArgs
 
 if __name__ == "__main__":
     # code for calling picosat

@@ -7,6 +7,7 @@ def writeCNF(lits,terms, cnfArray, writemode = "w+"):
         f = open("satTest.cnf", writemode)
         f.write("p cnf " + str(lits) + " " + str(terms)+"\n")
     else:
+        # append new clauses
         f = open("satTest.cnf", "r+")
         line = f.readline()
         txt = f.read()
