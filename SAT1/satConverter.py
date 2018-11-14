@@ -77,11 +77,21 @@ def addAmountDistriction(lineNumber, colNumber, vertical, data):
         #print(surplusOfWhiteBlocks)
         #print(whiteBlocks)
         if surplusOfWhiteBlocks < 0:
-            #print("niga",blackBlocks)
+            sack = [[]]
+            for i in blackBlocks:
+                sack[0].append(i*-1)
+            return sack
+            print("niga",blackBlocks)
             solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks*-1, len(blackBlocks), blackBlocks, 1)
         elif surplusOfWhiteBlocks > 0:
-            solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks, len(whiteBlocks), whiteBlocks, 0)
-
+            sack = [[]]
+            for i in whiteBlocks:
+                sack[0].append(i*-1)
+            print("sack",sack)
+            return sack
+            #return sack
+            #solutions = buildAllPossibleNegationsIterative(surplusOfWhiteBlocks, len(whiteBlocks), whiteBlocks, 0)
+            #print("solutions: ", solutions)
         #The main algorithm is called
         #solutions = buildAllPossibleNegationsIterative(colNumber//2-1, colNumber, arrayOfCurrentRowIndexes)
         for s in solutions:
