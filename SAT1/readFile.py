@@ -35,9 +35,9 @@ def readFileData(fileName):
 
 def readPicosatSolution(cols, lines, displayResult = 1):
     result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
-    print("Given result:",result)
+    #print("Given result:",result)
     result = result.stdout.decode('utf-8').splitlines()
-    print("The given formula is: ", result[0].replace("s ",""))
+    #print("The given formula is: ", result[0].replace("s ",""))
     # remove the frist line
     result.pop(0)
     values = []
@@ -51,7 +51,6 @@ def readPicosatSolution(cols, lines, displayResult = 1):
     if displayResult == 0:
         for i in range(len(values)):
             values[i] = int(values[i])
-        print("value",values)
         return values
     if displayResult == 1:
         for i in range(lines):

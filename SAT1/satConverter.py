@@ -224,16 +224,32 @@ def convertToSat(data, repeatNumber = 0):
     writeFile.writeCNF(lits, terms, cnf, writemode)
 
 # checks if equal amout of white and black in every row
-def checkIfDataIsDevine(data, cols, lines):
+def checkIfDataIsDevineLines(data, cols, lines):
     for i in range(lines):
         counter = 0
         for j in range(cols):
-            if(data[j * lineNumber + i] > 0):
+            print("line: ", i, "col: ", j, "data: ", data[i * lineNumber + j])
+            if(data[i * lineNumber + j] > 0):
                 counter = counter + 1
+        print("counter: ", counter, "lineNumber: ", lineNumber)
         if(counter != colNumber//2):
             return 0
-        else:
-            return 1
+    return 1
+
+def checkIfDataIsDevineCols(data, cols, lines):
+    for i in range(lines):
+        counter = 0
+        for j in range(cols):
+            #print("line: ", i, "col: ", j, "data: ", data[i + lines * j])
+            if(data[i+lines*j] > 0):
+
+                counter = counter + 1
+        #print("counter: ", counter, "lineNumber: ", lineNumber)
+        if(counter != lineNumber//2):
+
+            return 0
+    return 1
+
 
 
 
