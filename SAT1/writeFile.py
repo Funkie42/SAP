@@ -2,6 +2,8 @@ import string
 
 
 #write converted CNF to File
+# if writemode = "w+" we write in the file
+# if writemode = "a" we append the new content to the old content and update the amout of clauses
 def writeCNF(lits,terms, cnfArray, writemode = "w+"):
     if writemode == "w+":
         f = open("satTest.cnf", writemode)

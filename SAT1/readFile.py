@@ -1,4 +1,10 @@
 import subprocess
+
+# read the data form the game.txt file
+# returns the amount of columns and lines and the gamefield in form [[x1,x2,...,xn],[],[],...,[]]
+# 2 = back block
+# 1 = white block
+# 0 = grey block
 def readFileData(fileName):
     fo = open(fileName)
 
@@ -35,12 +41,13 @@ def readFileData(fileName):
 
     height = cnt - 2
     cols = width - 1
-    print(nonPerdeterminedFields)
+    #print(nonPerdeterminedFields)
 
     game = {'game': gameboard, 'lines': height, 'cols': cols, 'greyFields': nonPerdeterminedFields}
 
     return game
 
+# runs picosat and returns the solution
 def readPicosatSolution(cols, lines, displayResult = 1):
     result = subprocess.run(['picosat', 'satTest.cnf'], stdout=subprocess.PIPE)
     result = result.stdout.decode('utf-8').splitlines()
@@ -85,6 +92,8 @@ def readPicosatSolution(cols, lines, displayResult = 1):
             doubleArr.append(singleArr)
         return doubleArr
 
+# runs picosat with an additional argument and returns 1 if there is a solutions
+# and returns 0 if there is no solution
 def readPicosatWithArgs(clause):
     #call picosat with extra clause
     #print (clause,"clause")

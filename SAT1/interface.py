@@ -78,10 +78,17 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+            # solve the selected game
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     # code for calling picosat
                     data = satConverter.applyRules(data, lines, cols, greyFields)
+
+            #only show the solution fast but dont add all clauses to satfile picosat to have one possibility only
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    # code for calling picosat
+                    data = satConverter.applyRules(data, lines, cols, greyFields,1)
 
                 #choose level to play
                 if event.key == pygame.K_DOWN:
@@ -135,6 +142,7 @@ if __name__ == "__main__":
 
 
         screen.fill(backgroundWhite)
+        # draw the grid with the given data. After space is clicked data = solution of game and gets displayed
         drawGrit(cols, lines, data)
         screen.blit(chooseGameTextsurface, (10, recthight*lines))
 

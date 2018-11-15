@@ -4,6 +4,7 @@ import interface
 import math
 import random
 import copy
+#main logic
 
 counter = 0
 colNumber = 0
@@ -14,9 +15,9 @@ def writeNumbersInFormat(line, colmun, colNumber):
     numberToBeAdded = str(line * colNumber + colmun +1)
     return numberToBeAdded
 
-
-def addSantaClauses(line, column, colNumber, lineNumber):
-    hoehoehoe = []
+# add clauses to the "sat" file
+def addSantaClauses(line, column, colNumber, lineNumber): #bissi spaß muss auch sein
+    hohoho = []
 
     # Check Horizontal 3 in a row
     # "left left middle" and  "middle right right" are not neccessary because they are redundant
@@ -24,13 +25,13 @@ def addSantaClauses(line, column, colNumber, lineNumber):
 
     if (column > 0) & (column < colNumber - 1):
         for i in range(2):
-            hoehoehoe.append([writeNumbersInFormat(line, column - 1, colNumber),
+            hohoho.append([writeNumbersInFormat(line, column - 1, colNumber),
                               writeNumbersInFormat(line, column, colNumber),
                               writeNumbersInFormat(line, column + 1, colNumber)])
             # make content negative
             if i == 1:
                 for j in range(3):
-                    hoehoehoe[len(hoehoehoe) - 1][j] = "-" + hoehoehoe[len(hoehoehoe) - 1][j]
+                    hohoho[len(hohoho) - 1][j] = "-" + hohoho[len(hohoho) - 1][j]
         '''for i in range(6):
             hoehoehoe.append([writeNumbersInFormat(line, column - 1, colNumber),
                             writeNumbersInFormat(line, column, colNumber),
@@ -44,13 +45,13 @@ def addSantaClauses(line, column, colNumber, lineNumber):
     # Check vertical 3 in a row
     if (line > 0) & (line < lineNumber - 1):
         for i in range(2):
-            hoehoehoe.append([writeNumbersInFormat(line - 1, column, colNumber),
+            hohoho.append([writeNumbersInFormat(line - 1, column, colNumber),
                               writeNumbersInFormat(line, column, colNumber),
                               writeNumbersInFormat(line + 1, column, colNumber)])
             if i == 1:
                 for j in range(3):
-                    hoehoehoe[len(hoehoehoe) - 1][j] = "-" + hoehoehoe[len(hoehoehoe) - 1][j]
-    return hoehoehoe
+                    hohoho[len(hohoho) - 1][j] = "-" + hohoho[len(hohoho) - 1][j]
+    return hohoho
 
 # Check Lines for 50/50 distribution
 # Check Columns for 50/50 distribution
@@ -94,6 +95,8 @@ def addAmountDistriction(lineNumber, colNumber, vertical, data):
             sack.append(s)
     return (sack)
 
+# this is no longer neede..
+# attempt to exclude n amout of blocks per line (is working but solws down the algorithem for huge grids)
 def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineData, reverse):
     cnfOfLineCheckArray = []
 
@@ -140,7 +143,8 @@ def buildAllPossibleNegationsIterative(negationAmount, varAmount, arrayOfLineDat
 
     return cnfOfLineCheckArray
 
-#RECURSIVE! VERY INEFFICENT!
+#Not used
+#RECURSIVE! VERY INEFFICENT! R.I.P Stack!
 #returns all pos and negativ possibility for a given amout of negations and variables
 def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData, changedNumbers = []):
     solutions = []
@@ -167,7 +171,7 @@ def buildAllPossibleNegationsRecursive(negationAmout, varAmount, arrayOfLineData
         solutions.extend(solution)
     return solutions
 
-
+# convert gamefield and apply sat rules on them and write them in the "sat" file
 def convertToSat(data, repeatNumber = 0):
     # Read input data to Array "data"
     global colNumber, lineNumber
@@ -220,7 +224,7 @@ def convertToSat(data, repeatNumber = 0):
     # write converted CNF to File
     writeFile.writeCNF(lits, terms, cnf, writemode)
 
-# checks if equal amout of white and black in every row
+# checks if equal amout of white and black in every line
 def checkIfDataIsDevineLines(data, cols, lines):
     for i in range(lines):
         counter = 0
@@ -230,7 +234,7 @@ def checkIfDataIsDevineLines(data, cols, lines):
         if(counter != colNumber//2):
             return 0
     return 1
-
+# same as above but for columns
 def checkIfDataIsDevineCols(data, cols, lines):
     for i in range(lines):
         counter = 0
@@ -245,6 +249,7 @@ def checkIfDataIsDevineCols(data, cols, lines):
             return 0
     return 1
 
+# convert array formats (unfortunally we have two different formats how our array look like: [[1..len(col)]..len(line)] and [1..n]
 def convertData(data, lines, cols):
     sol = []
     counter = 0
@@ -259,6 +264,7 @@ def convertData(data, lines, cols):
         sol.append(subSol)
     return sol
 
+# apply the rules of the game
 def applyRules(data, lines, cols, greyFields, buildingBoard = 0):
     # apply the rule for the 3 solver
     convertToSat(data)

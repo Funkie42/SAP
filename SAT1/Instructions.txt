@@ -1,4 +1,0 @@
-You need to compile interface.py with: "python3 interface.py"
-The gamegrid should then pop up. 
-To start the solver you need to press the arrow btn down. 
-
