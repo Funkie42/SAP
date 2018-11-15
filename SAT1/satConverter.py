@@ -3,6 +3,7 @@ import writeFile
 import interface
 import math
 import random
+import copy
 
 counter = 0
 colNumber = 0
@@ -258,7 +259,7 @@ def convertData(data, lines, cols):
         sol.append(subSol)
     return sol
 
-def applyRules(data, lines, cols, greyFields):
+def applyRules(data, lines, cols, greyFields, buildingBoard = 0):
     # apply the rule for the 3 solver
     convertToSat(data)
     data = readFile.readPicosatSolution(cols, lines, 0)
@@ -282,7 +283,8 @@ def applyRules(data, lines, cols, greyFields):
     # we have found the perfect solution but now exclude all other possibilities
     # herefor we got throug everystone and check if it could be switched
     # if so we have to write this stone in our satfile
-    checkEveryStoneForOtherSolutions(data, greyFields)
+    if not buildingBoard:
+        checkEveryStoneForOtherSolutions(data, greyFields)
 
 
     # data = readFile.readPicosatSolution(cols, lines, 1)
@@ -304,7 +306,7 @@ def checkEveryStoneForOtherSolutions(data):
             writeFile.writeCNF(lits, 1, [[elem]], "a")'''
 
 # gets data in fomat: [1,2,3,4,5,6,7,8,9,...,n]
-def checkEveryStoneForOtherSolutions(data, greyFields):
+def checkEveryStoneForOtherSolutions(data, greyFields, isBuildingNewBoard = 0):
 
     lits = colNumber * lineNumber
     counter = 0
@@ -313,11 +315,14 @@ def checkEveryStoneForOtherSolutions(data, greyFields):
         #check it for the negative value if it would be possible in other solution
         elem = data[elem]*-1
         isPossible = readFile.readPicosatWithArgs(str(elem))
-        if(isPossible==1):
-            elem = elem*-1
-            #it can be switched and therefor this possibility has to be excluded
-            writeFile.writeCNF(lits, 1, [[elem]], "a")
-
+        if isPossible == 1:
+            if isBuildingNewBoard:
+                return 0 #Not unique anymore! Boardbuilding
+            else:
+                elem = elem*-1
+                #it can be switched and therefor this possibility has to be excluded
+                writeFile.writeCNF(lits, 1, [[elem]], "a")
+    return 1 #Still unique board
 
 #Aufgabe 4
 def buildNewGrid(lines, cols):
@@ -345,14 +350,51 @@ def buildNewGrid(lines, cols):
             arrayInFormat.append(newArrayToAdd)
             newArrayToAdd = []
 
-    #print(arrayInFormat)
     return setFieldsForSingularity(arrayInFormat,greyFields, lines, cols)
 
 def setFieldsForSingularity(arrayInFormat, greyFields, lines, cols):
-    #lits = colNumber * lineNumber
-    lits = 8 * 8
+    lits = lines * cols
     data = applyRules(arrayInFormat, lines, cols, greyFields)
+    applyRules(data, lines, cols, greyFields)
+
+    #just do it through deleting elements
+
+    #until at least half the field is empty
+    oldSolution = copy.deepcopy(data)
+    greyFields = greyFields
+    oldGreyFields = copy.deepcopy(greyFields)
     counter = 0
+    successfulReduction = 0
+    while (counter < len(data)) | (successfulReduction*lines < len(data)//2):
+
+        counter += 1
+        for line in range(len(data)):
+            newLinegreyFields = []
+            indizeToDelete = random.randint(0, len(data[line])-1)
+            if indizeToDelete+line*lines in greyFields:
+                del greyFields[greyFields.index(indizeToDelete+line*lines)]
+
+                data[line][indizeToDelete] = 0
+                newLinegreyFields.append(indizeToDelete+line*lines)
+
+            dataInOtherFormat = []
+            for j in oldSolution:
+                for k in j:
+                    dataInOtherFormat.append(k)
+            applyRules(data, lines, cols, greyFields)
+            unique = checkEveryStoneForOtherSolutions(dataInOtherFormat, newLinegreyFields, 1)
+
+            if unique == 0:
+                data = copy.deepcopy(oldSolution)
+                greyFields = copy.deepcopy(oldGreyFields)
+                unique == 1
+            else:
+                oldSolution = copy.deepcopy(data)
+                oldGreyFields = copy.deepcopy(greyFields)
+                successfulReduction += 1
+
+    #old, wrong solution
+    '''counter = 0
     for elem in greyFields:
         # check it for the negative value if it would be possible in other solution
         #print ("data",data)
@@ -373,8 +415,8 @@ def setFieldsForSingularity(arrayInFormat, greyFields, lines, cols):
                 #print (elem)
                 arrayInFormat[elem//lineNumber][elem%colNumber] = 1
             else:
-                arrayInFormat[elem//lineNumber][elem%colNumber] = 2
-    return arrayInFormat
+                arrayInFormat[elem//lineNumber][elem%colNumber] = 2'''
+    return data
 
 
 if __name__ == "__main__":

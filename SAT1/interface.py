@@ -8,6 +8,8 @@ filenames = []
 filenames.append("Random File Size 4")
 filenames.append("Random File Size 8")
 filenames.append("Random File Size 14")
+filenames.append("Random File Size 18")
+filenames.append("Random File Size 24")
 filnamePosition = -1
 for root, dirs, files in os.walk("./ueb1"):
     for filename in files:
@@ -87,13 +89,14 @@ if __name__ == "__main__":
                     if filnamePosition == len(filenames):
                         filnamePosition = 0
                     chooseGameText = filenames[filnamePosition]
-                    chooseGameTextsurface = myfont.render("Play: " + chooseGameText + "? Press Enter!", 0, black)
+                    chooseGameTextsurface = myfont.render("Play: " + chooseGameText + "? Press Enter! (Random games may take long to load)", 0, black)
 
                 #confirm level to play
                 if event.key == pygame.K_RETURN:
-                    if filnamePosition < 3:
-                        cols = 8
-                        lines = 8
+                    if filnamePosition < 5:
+                        size = int(filenames[filnamePosition].split()[3])
+                        cols = size
+                        lines = size
                         impossible = 1
                         while impossible: #if random solution is impossible, try again
 
@@ -123,7 +126,7 @@ if __name__ == "__main__":
 
                     rectwidth = gameSize[0] // cols
                     recthight = gameSize[1] // lines
-                    chooseGameTextsurface = myfont.render("Playing: " + chooseGameText, 0, black)
+                    chooseGameTextsurface = myfont.render("Playing: " + chooseGameText + ". Press \"Space\" to calculate solution", 0, black)
 
 
 
